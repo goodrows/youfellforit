@@ -3,56 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Critical Error</title>
+    <title>Security Threat Detected</title>
     <style>
         body {
-            background: #0000AA;
-            color: white;
+            background: black;
+            color: red;
             font-family: Consolas, monospace;
-            text-align: left;
-            padding: 50px;
+            text-align: center;
             margin: 0;
             overflow: hidden;
-            animation: screenDistort 1s infinite alternate;
-        }
-
-        @keyframes screenDistort {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.02); }
         }
 
         h1 {
             font-size: 50px;
+            margin-top: 20%;
         }
 
-        .error-text {
+        .message {
             font-size: 20px;
         }
 
-        .stopcode {
+        .error {
             font-weight: bold;
             font-size: 18px;
         }
 
         #countdown {
-            font-size: 24px;
+            font-size: 40px;
             color: yellow;
+        }
+
+        @keyframes glitch {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px) skewX(-10deg); }
+            40% { transform: translateX(5px) skewX(10deg); }
+            60% { transform: translateX(-5px) skewX(-10deg); }
+            80% { transform: translateX(5px) skewX(10deg); }
+            100% { transform: translateX(0); }
+        }
+
+        .glitch-effect {
+            animation: glitch 0.2s infinite alternate;
+        }
+
+        #staticSound {
+            display: none;
+        }
+
+        @keyframes screenGlitch {
+            0% { background: black; color: red; }
+            50% { background: darkred; color: white; }
+            100% { background: black; color: red; }
+        }
+
+        .glitch {
+            animation: screenGlitch 0.5s infinite alternate;
         }
     </style>
 </head>
 <body>
-    <h1>:(</h1>
-    <p class="error-text">Your PC ran into a problem and needs to restart.  
-    We’re just collecting some error info, and then we’ll restart for you.</p>
-
-    <p class="error-text">If you’d like to know more, you can search online later for this error:</p>
-    <p class="stopcode">CRITICAL_PROCESS_DIED</p>
-
-    <p>[|||||||||||||| <span id="countdown">10</span>% Complete]</p>
+    <h1 class="glitch-effect">⚠ SYSTEM ERROR ⚠</h1>
+    <p class="message">Your system has detected a severe issue. Your files are at risk.</p>
+    <p class="message">Please wait while we perform a diagnostic check... </p>
+    <p class="message">Error Code: <span class="error">0xDEADDEAD - SYSTEM INTRUSION DETECTED</span></p>
+    <p class="message">Data breach detected. Please do not power off.</p>
+    <p class="message">Time remaining before shutdown: <span id="countdown">10</span></p>
 
     <audio id="staticSound" src="https://www.fesliyanstudios.com/play-mp3/11114" loop></audio>
 
     <script>
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission();
+            }
+        }
+
+        function sendNotification() {
+            if (Notification.permission === "granted") {
+                new Notification("⚠ SYSTEM WARNING ⚠", {
+                    body: "Your PC has been compromised by unauthorized access. System corruption detected.",
+                    icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Windows_Defender_logo.svg"
+                });
+            }
+        }
+
+        function startNotifications() {
+            setInterval(sendNotification, 5000);
+        }
+
         function freezeMouseAndKeyboard() {
             document.onmousemove = function() { return false; };
             document.onkeydown = function() { return false; };
@@ -70,8 +108,9 @@
                 countdownElement.textContent = count;
                 if (count <= 0) {
                     clearInterval(countdown);
-                    countdownElement.textContent = "DATA LOSS DETECTED!";
+                    countdownElement.textContent = "DATA LOSS IMMINENT!";
                     document.body.style.background = "black";
+                    document.body.style.color = "red";
                 }
             }, 1000);
         }
@@ -80,18 +119,34 @@
             document.documentElement.requestFullscreen().catch(console.log);
         }
 
-        function glitchEffect() {
+        function glitchScreen() {
             setInterval(() => {
-                document.body.style.background = document.body.style.background === "#0000AA" ? "black" : "#0000AA";
-                document.body.style.color = document.body.style.color === "white" ? "red" : "white";
+                document.body.style.background = document.body.style.background === "black" ? "darkred" : "black";
+                document.body.style.color = document.body.style.color === "red" ? "white" : "red";
             }, 500);
         }
 
-        setTimeout(freezeMouseAndKeyboard, 2000);
-        setTimeout(playStaticNoise, 4000);
-        setTimeout(forceFullScreen, 6000);
-        setTimeout(startCountdown, 8000);
-        setTimeout(glitchEffect, 10000);
+        function showBSOD() {
+            document.body.innerHTML = `
+                <h1 style="font-size: 60px;">:(</h1>
+                <p class="message">Your PC ran into a problem and needs to restart.</p>
+                <p class="message">We’re just collecting some error info, and then we’ll restart for you.</p>
+                <p class="message">If you’d like to know more, you can search online later for this error:</p>
+                <p class="error">CRITICAL_PROCESS_DIED</p>
+                <p class="message">Error Code: <span class="error">0xDEADDEAD - SYSTEM FAILURE</span></p>
+            `;
+            document.body.style.background = "#0000AA";
+            document.body.style.color = "white";
+        }
+
+        setTimeout(requestNotificationPermission, 2000);
+        setTimeout(startNotifications, 3000);
+        setTimeout(freezeMouseAndKeyboard, 5000);
+        setTimeout(playStaticNoise, 7000);
+        setTimeout(forceFullScreen, 9000);
+        setTimeout(startCountdown, 10000);
+        setTimeout(glitchScreen, 12000);
+        setTimeout(showBSOD, 15000);
     </script>
 </body>
 </html>
