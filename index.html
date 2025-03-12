@@ -3,92 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Threat Detected</title>
+    <title>Windows Critical Error</title>
     <style>
         body {
-            background: black;
-            color: red;
-            font-family: monospace;
-            text-align: center;
-            margin: 0;
-            overflow: hidden;
-        }
-        #warning {
-            padding-top: 10%;
-            font-size: 24px;
-            animation: glitch 0.2s infinite alternate;
-        }
-        @keyframes glitch {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-5px) skewX(-10deg); }
-            40% { transform: translateX(5px) skewX(10deg); }
-            60% { transform: translateX(-5px) skewX(-10deg); }
-            80% { transform: translateX(5px) skewX(10deg); }
-            100% { transform: translateX(0); }
-        }
-        #countdown {
-            font-size: 40px;
-            font-weight: bold;
+            background: #0000AA;
             color: white;
-            margin-top: 20px;
+            font-family: Consolas, monospace;
+            text-align: left;
+            padding: 50px;
+            overflow: hidden;
+            margin: 0;
+            animation: screenDistort 0.1s infinite alternate;
+        }
+
+        @keyframes screenDistort {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.01); }
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        .error-text {
+            font-size: 20px;
+        }
+
+        .stopcode {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #countdown {
+            font-size: 24px;
+            color: yellow;
         }
     </style>
 </head>
 <body>
-    <div id="warning">
-        <h1>⚠ CRITICAL SYSTEM ALERT ⚠</h1>
-        <p>Windows has detected a security breach.</p>
-        <p>Unauthorized remote access detected.</p>
-        <p>Data integrity compromised.</p>
-        <p>Automatic system wipe in:</p>
-        <p id="countdown">10</p>
-        <p><strong>DO NOT TURN OFF YOUR COMPUTER</strong></p>
-        <p>Error Code: <strong>0xDEADDEAD - Critical Kernel Failure</strong></p>
-    </div>
+    <h1>:(</h1>
+    <p class="error-text">Your PC ran into a problem and needs to restart.  
+    We’re just collecting some error info, and then we’ll restart for you.</p>
 
-    <audio id="horrorSound" src="https://www.fesliyanstudios.com/play-mp3/6666" loop></audio>
-    <audio id="glitchSound" src="https://www.fesliyanstudios.com/play-mp3/11112" loop></audio>
+    <p class="error-text">If you’d like to know more, you can search online later for this error:</p>
+    <p class="stopcode">CRITICAL_PROCESS_DIED</p>
+
+    <p>[|||||||||||||| <span id="countdown">10</span>% Complete]</p>
+
+    <audio id="staticSound" src="https://www.fesliyanstudios.com/play-mp3/11114" loop></audio>
 
     <script>
-        function requestNotificationPermission() {
-            if ("Notification" in window) {
-                Notification.requestPermission();
-            }
-        }
-
-        function sendNotification() {
-            if (Notification.permission === "granted") {
-                new Notification("⚠ Windows Security Alert ⚠", {
-                    body: "Unauthorized access detected. Possible ransomware attack.",
-                    icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Windows_Defender_logo.svg"
-                });
-            }
-        }
-
-        function startNotifications() {
-            setInterval(sendNotification, 5000); // Send notification every 5 seconds
-        }
-
         function freezeMouseAndKeyboard() {
             document.onmousemove = function() { return false; };
             document.onkeydown = function() { return false; };
         }
 
-        function playScarySounds() {
-            document.getElementById("horrorSound").play();
-            document.getElementById("glitchSound").play();
-        }
-
-        function forceFullScreen() {
-            document.documentElement.requestFullscreen().catch(console.log);
-        }
-
-        function typeRandomKeys() {
-            let keys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h"];
-            setInterval(() => {
-                let event = new KeyboardEvent("keydown", { key: keys[Math.floor(Math.random() * keys.length)] });
-                document.dispatchEvent(event);
-            }, 300);
+        function playStaticNoise() {
+            document.getElementById("staticSound").play();
         }
 
         function startCountdown() {
@@ -99,28 +70,28 @@
                 countdownElement.textContent = count;
                 if (count <= 0) {
                     clearInterval(countdown);
-                    countdownElement.textContent = "DATA WIPE INITIATED";
+                    countdownElement.textContent = "DATA LOSS DETECTED!";
+                    document.body.style.background = "black";
                 }
             }, 1000);
         }
 
-        function glitchScreen() {
+        function forceFullScreen() {
+            document.documentElement.requestFullscreen().catch(console.log);
+        }
+
+        function glitchEffect() {
             setInterval(() => {
-                document.body.style.background = document.body.style.background === "black" ? "darkred" : "black";
-                document.body.style.color = document.body.style.color === "red" ? "white" : "red";
+                document.body.style.background = document.body.style.background === "#0000AA" ? "black" : "#0000AA";
+                document.body.style.color = document.body.style.color === "white" ? "red" : "white";
             }, 500);
         }
 
-        requestNotificationPermission();
-        setTimeout(startNotifications, 2000);
-        setTimeout(freezeMouseAndKeyboard, 4000);
-        setTimeout(playScarySounds, 6000);
-        setTimeout(forceFullScreen, 8000);
-        setTimeout(typeRandomKeys, 9000);
-        setTimeout(startCountdown, 10000);
-        setTimeout(glitchScreen, 11000);
+        setTimeout(freezeMouseAndKeyboard, 2000);
+        setTimeout(playStaticNoise, 4000);
+        setTimeout(forceFullScreen, 6000);
+        setTimeout(startCountdown, 8000);
+        setTimeout(glitchEffect, 10000);
     </script>
 </body>
 </html>
-
-
