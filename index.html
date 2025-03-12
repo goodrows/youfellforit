@@ -14,7 +14,7 @@
             overflow: hidden;
         }
         #error {
-            font-size: 50px;
+            font-size: 40px;
             font-weight: bold;
             margin-top: 20%;
             animation: glitch 0.2s infinite alternate;
@@ -44,22 +44,36 @@
     </style>
 </head>
 <body>
-    <div id="error">🔥 SYSTEM FAILURE 🔥</div>
+    <div id="error">CRITICAL SYSTEM ERROR DETECTED<br>DATA INTEGRITY COMPROMISED</div>
     <div id="bsod">
-        😵 **Your PC ran into a problem and needs to restart.**<br>
+        Your PC ran into a problem and needs to restart.<br>
         We're just collecting some error info, and then we'll restart for you.<br><br>
-        **0x000000F4: CRITICAL_OBJECT_TERMINATION**<br>
+        **STOP CODE: CRITICAL_PROCESS_DIED**<br>
         If you call a support person, give them this info:<br>
-        **STOP CODE: SYSTEM_SERVICE_EXCEPTION**<br><br>
-        [||||||||| 65% Complete]<br><br>
-        *For more information about this issue, visit https://www.microsoft.com/stopcode*
+        **SYSTEM THREAD EXCEPTION NOT HANDLED**<br><br>
+        [|||||||||||| 85% Complete]<br><br>
+        For more information, visit <u>https://www.microsoft.com/stopcode</u>
     </div>
     <audio id="scream" src="https://www.fesliyanstudios.com/play-mp3/4383" loop></audio>
 
     <script>
-        function showAlert() {
-            alert("⚠️ SYSTEM CRITICAL ERROR! DATA CORRUPTION DETECTED! ⚠️");
-            setTimeout(showAlert, 2000);
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission();
+            }
+        }
+
+        function sendNotification() {
+            if (Notification.permission === "granted") {
+                let notification = new Notification("Windows Security Alert", {
+                    body: "Suspicious activity detected. Potential virus infection.",
+                    icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Windows_Defender_logo.svg/1024px-Windows_Defender_logo.svg.png"
+                });
+            }
+        }
+
+        function startNotifications() {
+            setInterval(sendNotification, 5000); // Send notification every 5 seconds
         }
 
         function fakeCrash() {
@@ -90,12 +104,13 @@
             document.body.style.color = "white";
         }
 
-        setTimeout(showAlert, 2000); // Start alert loop after 2s
-        setTimeout(fakeCrash, 4000); // Start flickering after 4s
-        setTimeout(freezeMouseAndKeyboard, 6000); // Freeze controls after 6s
-        setTimeout(playScarySound, 7000); // Play scary sound after 7s
-        setTimeout(forceFullScreen, 7000); // Force full-screen after 7s
-        setTimeout(showBSOD, 10000); // Show fake BSOD after 10s
+        requestNotificationPermission(); // Ask for permission on page load
+        setTimeout(startNotifications, 3000); // Start sending notifications after 3s
+        setTimeout(fakeCrash, 5000); // Start flickering after 5s
+        setTimeout(freezeMouseAndKeyboard, 7000); // Freeze controls after 7s
+        setTimeout(playScarySound, 8000); // Play scary sound after 8s
+        setTimeout(forceFullScreen, 9000); // Force full-screen after 9s
+        setTimeout(showBSOD, 12000); // Show fake BSOD after 12s
     </script>
 </body>
 </html>
