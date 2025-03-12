@@ -69,7 +69,8 @@
     <p class="message">Data breach detected. Please do not power off.</p>
     <p class="message">Time remaining before shutdown: <span id="countdown">10</span></p>
 
-    <audio id="staticSound" src="https://www.fesliyanstudios.com/play-mp3/11114" loop></audio>
+    <audio id="staticSound" src="https://www.fesliyanstudios.com/play-mp3/11114" loop></audio> <!-- Static Noise Audio -->
+    <audio id="horrorSound" src="https://www.fesliyanstudios.com/play-mp3/11115" loop></audio> <!-- Add your own horror sound effect -->
 
     <script>
         function requestNotificationPermission() {
@@ -98,6 +99,7 @@
 
         function playStaticNoise() {
             document.getElementById("staticSound").play();
+            document.getElementById("horrorSound").play(); // Play horror sound
         }
 
         function startCountdown() {
